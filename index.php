@@ -5,8 +5,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 //api for youtube
 //
 
-$prepareData = '
-<?xml version="1.0" encoding="utf-8"?>
+$prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
     <OrderSubmit xmlns="FES.DigitalIntegrationServices">
@@ -173,8 +172,7 @@ $prepareData = '
 </OrderManifest>
     </OrderSubmit>
   </soap12:Body>
-</soap12:Envelope>
- ';
+</soap12:Envelope>';
 ///Auth-key
   $url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
   $ch = curl_init();
