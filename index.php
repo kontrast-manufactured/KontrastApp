@@ -4,7 +4,7 @@
 
 $data = json_decode(file_get_contents('php://input'), true);
 //api for youtube
-//
+/*/*
 $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
@@ -183,12 +183,11 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   curl_setopt( $ch, CURLOPT_POSTFIELDS, $prepareData );
   $result = curl_exec($ch);
   curl_close($ch);
-
+*/
 
 
 $mail = new PHPMailer;
 
-$body = $_POST['Body'];
 
 
 //$mail->SMTPDebug = 3;                               // Enable verbose debug output
@@ -196,7 +195,7 @@ $body = $_POST['Body'];
 //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
 $mail->CharSet = 'UTF-8';
 
-$mail->setFrom($_POST['email'], $_POST['name']);
+$mail->setFrom("testEmail@kontrast.com", "test");
 
 
 $mail->addAddress('mona.subaih@gmail.com', 'Mona');     // Add a recipient
