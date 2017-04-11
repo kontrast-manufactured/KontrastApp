@@ -1,17 +1,17 @@
 <?php
-echo "here";
+  require 'lib/phpmailer/PHPMailerAutoload.php';
+
 
 $data = json_decode(file_get_contents('php://input'), true);
 //api for youtube
 //
-
 $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
     <OrderSubmit xmlns="FES.DigitalIntegrationServices">
       <AppKey>11C7-2462-6CAA-4D87</AppKey>
       <OrderManifest>
-  <OriginatorOrderID>1515</OriginatorOrderID>
+  <OriginatorOrderID>'.$data['id'].'</OriginatorOrderID>
   <Summary>
     <TotalTax>1.25</TotalTax>
     <TotalPrice>3.25</TotalPrice>
@@ -46,7 +46,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
           <OrderUserTypeID>0</OrderUserTypeID>
         </OwnerInfo>
       </Summary>
-      <OriginatorSubOrderID>1515</OriginatorSubOrderID>
+      <OriginatorSubOrderID>'.$data['id'].'-Sub'.'</OriginatorSubOrderID>
       <CreateDate>2012-08-31T13:40:56-04:00</CreateDate>
       <FulfillerID>30242</FulfillerID>
       <LineItems>
@@ -110,16 +110,16 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         </LineItem>
       </LineItems>
       <ShippingInfo>
-        <FirstName>Fuji Testorder</FirstName>
-        <LastName>Do Not Fulfill</LastName>
-        <Address1>1565 Jefferson Rd</Address1>
-        <Address2>Bldg 300</Address2>
-        <Address3>Suite 320</Address3>
-        <City>Rochester</City>
-        <State>NY</State>
-        <PostalCode>14623</PostalCode>
+        <FirstName>'.$data['customer']['first_name'].'</FirstName>
+        <LastName>'.$data['customer']['last_name'].'</LastName>
+        <Address1>'.$data['customer']['email'].'</Address1>
+        <Address2>'.$data['customer']['email'].'</Address2>
+        <Address3>'.$data['customer']['email'].'</Address3>
+        <City>'.$data['customer']['email'].'</City>
+        <State>'.$data['customer']['email'].'</State>
+        <PostalCode>'.$data['customer']['email'].'</PostalCode>
         <Country>US</Country>
-        <Phone>(585)555-5555</Phone>
+        <Phone>'.$data['customer']['email'].'</Phone>
         <Email/>
         <PickupTime>2012-08-27T11:00:00</PickupTime>
         <MethodCode>SD</MethodCode>
@@ -131,17 +131,17 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
           <PaymentAmount>23.2</PaymentAmount>
           <PaymentMethodID>COD</PaymentMethodID>
           <BillingInfo>
-            <FirstName>Fuji Testorder</FirstName>
-            <LastName>Do Not Fulfill</LastName>
-            <Address1>1565 Jefferson Rd</Address1>
-            <Address2>Bldg 300</Address2>
-            <Address3>Suite 320</Address3>
-            <City>Rochester</City>
-            <State>NY</State>
-            <PostalCode>14623</PostalCode>
-            <Country>US</Country>
-            <Phone>(585)555-5555</Phone>
-            <Email>test@fujifilm.com</Email>
+            <FirstName>'.$data['customer']['first_name'].'</FirstName>
+            <LastName>'.$data['customer']['last_name'].'</LastName>
+            <Address1>test</Address1>
+            <Address2>test</Address2>
+            <Address3>test</Address3>
+            <City>'.$data['customer']['email'].'</City>
+            <State>'.$data['email'].'</State>
+            <PostalCode>'.$data['customer']['last_name'].'</PostalCode>
+            <Country>'.$data['customer']['last_name'].'</Country>
+            <Phone>'.$data['customer']['last_name'].'</Phone>
+            <Email>'.$data['customer']['last_name'].'</Email>
           </BillingInfo>
           <PaymentProperties/>
         </PaymentInfo>
@@ -183,6 +183,36 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   curl_setopt( $ch, CURLOPT_POSTFIELDS, $prepareData );
   $result = curl_exec($ch);
   curl_close($ch);
-  var_dump($result);
-  
+
+
+
+$mail = new PHPMailer;
+
+$body = $_POST['Body'];
+
+
+//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+//$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+$mail->CharSet = 'UTF-8';
+
+$mail->setFrom($_POST['email'], $_POST['name']);
+
+
+$mail->addAddress('mona.subaih@gmail.com', 'Mona');     // Add a recipient
+
+$mail->isHTML(true);                                  // Set email format to HTML
+
+$mail->Subject = "Kontrast :: Contact Form";
+$mail->Body = json_encode($data);
+$mail->AltBody = json_encode($data);
+
+if (!$mail->send()) {
+
+    $data['success'] = false;
+    $data['messageError'] = 'Message could not be sent.' . 'Mailer Error: ' . $mail->ErrorInfo;
+} else {
+    $data['success'] = true;
+}
+echo json_encode($data);
 
