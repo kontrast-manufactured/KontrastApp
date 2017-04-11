@@ -1,14 +1,10 @@
 <?php
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-session_start();
+echo "here";
+
 $data = json_decode(file_get_contents('php://input'), true);
 //api for youtube
 //
-//
+
 $prepareData = '
 <?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
@@ -189,4 +185,6 @@ $prepareData = '
   curl_setopt( $ch, CURLOPT_POSTFIELDS, $prepareData );
   $result = curl_exec($ch);
   curl_close($ch);
-?>
+  var_dump($result);
+  
+
