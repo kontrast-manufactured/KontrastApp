@@ -201,7 +201,7 @@ $mail->setFrom("testEmail@kontrast.com", "test");
 $mail->addAddress('mona.subaih@gmail.com', 'Mona');     // Add a recipient
 
 $mail->isHTML(true);                                  // Set email format to HTML
-
+$data['success'] = 'false';
 $mail->Subject = "Kontrast :: Contact Form";
 $mail->Body = json_encode($data);
 $mail->AltBody = json_encode($data);
