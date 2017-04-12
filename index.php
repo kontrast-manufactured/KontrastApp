@@ -21,6 +21,8 @@ $restRequest->setCustomeCurlParams(array(
     'CURLOPT_SSL_VERIFYHOST' => 2
 ));
 $i = 0;
+ $data['tax_linesRate'] = ($data['tax_lines']['rate']!='')?$data['tax_lines']['rate']:0.0 ;
+ $data['tax_linesPrice'] = ($data['tax_lines']['price'] !='')?$data['tax_lines']['price']:0.0;
 foreach ($lineItemsArr as $key => $variant) {
     $i = $i + 1;
     ////////////// get the product image /////////////////////
@@ -59,8 +61,8 @@ foreach ($lineItemsArr as $key => $variant) {
           <Quantity>' . $variant['quantity'] . '</Quantity>
           <UnitPrice>' . $variant['price'] . '</UnitPrice>
           <BaseUnitPrice>' . $variant['price'] . '</BaseUnitPrice>
-          <Tax>' . $variant['tax_lines']['price'] . '</Tax>
-          <ShippingPrice>' . $data['shipping_lines']['price'] . '</ShippingPrice>
+          <Tax>' .  $data['tax_linesPrice']. '</Tax>
+          <ShippingPrice>0</ShippingPrice>
           <HandlingPrice>0.0</HandlingPrice>
           <ChildLineItems/>
         </LineItem>';
@@ -85,6 +87,7 @@ foreach ($lineItemsArr as $key => $variant) {
 
     
 }
+
 $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
@@ -96,7 +99,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <TotalTax>' . $data['total_tax'] . '</TotalTax>
     <TotalPrice>' . $data['total_price'] . '</TotalPrice>
     <TotalItemPrice>' . $data['total_line_items_price'] . '</TotalItemPrice>
-    <TotalShipping>' . $data['shipping_lines']['price'] . '</TotalShipping>
+    <TotalShipping>0</TotalShipping>
     <TotalHandling>0.0</TotalHandling>
     <OwnerInfo>
       <FirstName>' . $data['customer']['first_name'] . '</FirstName>
@@ -108,8 +111,8 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <TaxList>
         <Tax>
           <TaxID>VAT</TaxID>
-          <Rate>' . $data['tax_lines']['rate'] . '</Rate>
-          <Amount>' . $data['tax_lines']['price'] . '</Amount>
+          <Rate>' .$data['tax_linesRate']. '</Rate>
+          <Amount>' .$data['tax_linesPrice']  . '</Amount>
         </Tax>
     </TaxList>
   </Summary>
@@ -119,10 +122,10 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   <SubOrders>
     <SubOrder>
       <Summary>
-        <TotalTax>0</TotalTax>
-        <TotalPrice>0</TotalPrice>
-        <TotalItemPrice>0</TotalItemPrice>
-        <TotalShipping>0.0</TotalShipping>
+       <TotalTax>' . $data['total_tax'] . '</TotalTax>
+    <TotalPrice>' . $data['total_price'] . '</TotalPrice>
+    <TotalItemPrice>' . $data['total_line_items_price'] . '</TotalItemPrice>
+    <TotalShipping>0</TotalShipping>
         <TotalHandling>0</TotalHandling>
         <OwnerInfo>
           <FirstName>' . $data['customer']['first_name'] . '</FirstName>
@@ -143,10 +146,11 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <Address1>' . $data['shipping_address']['address1'] . '</Address1>
         <Address2>' . $data['shipping_address']['address2'] . '</Address2>
         <City>' . $data['shipping_address']['city'] . '</City>
-        <State>' . $data['shipping_address']['Kentucky'] . '</State>
+        <State>' . $data['shipping_address']['province_code'] . '</State>
         <PostalCode>' . $data['shipping_address']['zip'] . '</PostalCode>
-        <Country>' . $data['shipping_address']['country'] . '</Country>
+        <Country>' . $data['shipping_address']['country_code'] . '</Country>
         <Phone>' . $data['shipping_address']['phone'] . '</Phone>
+        <PickupTime> 2017-04-12T11:00:00 </PickupTime>    
         <MethodCode>SD</MethodCode>
         <MethodName>Standard Delivery</MethodName>
       </ShippingInfo>
@@ -161,9 +165,9 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
             <Address1>' . $data['billing_address']['address1'] . '</Address1>
             <Address2>' . $data['billing_address']['address2'] . '</Address2>
             <City>' . $data['billing_address']['city'] . '</City>
-            <State>' . $data['billing_address']['province'] . '</State>
+            <State>' . $data['billing_address']['province_code'] . '</State>
             <PostalCode>' . $data['billing_address']['zip'] . '</PostalCode>
-            <Country>' . $data['billing_address']['country'] . '</Country>
+            <Country>' . $data['billing_address']['country_code'] . '</Country>
             <Phone>' . $data['billing_address']['phone'] . '</Phone>
           </BillingInfo>
           <PaymentProperties/>
@@ -181,6 +185,8 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     </OrderSubmit>
   </soap12:Body>
 </soap12:Envelope>';
+
+
 
 ///Auth-key
 $url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
