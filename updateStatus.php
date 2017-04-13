@@ -9,7 +9,7 @@ fwrite($myfile, $orderDataSet);
 fclose($myfile);
 
 
-$orderStatus['Data']['APIKey']= "11C7-2462-6CAA-4D87";
+$orderStatus['Data']= json_decode($orderDataSet,true);
 $orderStatus['Status']['code']=200;
 echo json_encode($orderStatus);
 
