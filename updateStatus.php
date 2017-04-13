@@ -8,8 +8,8 @@ $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
 fwrite($myfile, $orderDataSet);
 fclose($myfile);
 
-$orderStatus['APIKey']= "11C7-2462-6CAA-4D87";
-$orderStatus['Data']= array();;
+
+$orderStatus['Data']['APIKey']= "11C7-2462-6CAA-4D87";
 $orderStatus['Status']['code']=200;
 echo json_encode($orderStatus);
 
