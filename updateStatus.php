@@ -1,11 +1,12 @@
 <?php
-error_reporting(0);
+error_reporting(E_ALL);
 include 'restRequest.php';
 
 $orderDataSet = json_decode(file_get_contents('php://input'), true);
 $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
 fwrite($myfile, $orderDataSet);
 fclose($myfile);
+echo "here";
 
 /*
 
