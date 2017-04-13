@@ -11,8 +11,8 @@ fclose($myfile);
 
 
 $orderStatus['Data']= json_decode($orderDataSet,true);
-$orderStatus['Status']['code']=200;
-//echo json_encode($orderStatus);
+$orderStatus['Status']['Code']=200;
+echo json_encode($orderStatus);
 
 /*
 
