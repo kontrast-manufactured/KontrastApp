@@ -12,7 +12,7 @@ fclose($myfile);
 
 $orderStatus['Data']= json_decode($orderDataSet,true);
 $orderStatus['Status']['code']=200;
-echo json_encode($orderStatus);
+//echo json_encode($orderStatus);
 
 /*
 
