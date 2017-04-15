@@ -5,12 +5,13 @@ header('Authorization: Fujifilm APIKey=11C7-2462-6CAA-4D87');
 header('Content-Type: application/json');
 $orderDataSet = file_get_contents('php://input');
 
+
 $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-fwrite($myfile, $orderDataSet);
+fwrite($myfile, $_SERVER['REQUEST_URI']);
 fclose($myfile);
 
 
-$orderStatus['Data']= json_decode($orderDataSet,true);
+//$orderStatus['Data']= json_decode($orderDataSet,true);
 $orderStatus['Status']['Code']=200;
 echo json_encode($orderStatus);
 
