@@ -7,7 +7,7 @@ $orderDataSet = file_get_contents('php://input');
 
 
 $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-fwrite($myfile, json_encode($_SERVER));
+fwrite($myfile, json_encode($_REQUEST));
 fclose($myfile);
 
 
