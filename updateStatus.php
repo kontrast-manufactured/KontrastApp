@@ -59,7 +59,7 @@ foreach ($orderDataSet['LineItems'] as $singleItems) {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $prepareData);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($prepareData));
             $result = curl_exec($ch);
             var_dump($result);
             curl_close($ch);
