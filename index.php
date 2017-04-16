@@ -176,7 +176,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <PostalCode>' . $data['shipping_address']['zip'] . '</PostalCode>
         <Country>' . $data['shipping_address']['country_code'] . '</Country>
         <Phone>' . $data['shipping_address']['phone'] . '</Phone>
-        <PickupTime> ' . $picTimeDate . ' </PickupTime>    
+        <PickupTime>' . $picTimeDate . '</PickupTime>    
         <MethodCode>SD</MethodCode>
         <MethodName>Standard Delivery</MethodName>
       </ShippingInfo>
