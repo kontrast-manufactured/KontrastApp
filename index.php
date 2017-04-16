@@ -48,14 +48,14 @@ foreach ($lineItemsArr as $key => $variant) {
               <PageProperties/>
               <Regions>
                 <Region>
-                  <MediaID>' . $i . '</MediaID>
+                  <MediaID>' . $variant['id'] . '</MediaID>
                   <RegionType>IMAGE</RegionType>
                   <RegionID>0</RegionID>
                 </Region>
               </Regions>
             </Page>
           </Pages>
-          <LineNumber>' . $i . '</LineNumber>
+          <LineNumber>' . $variant['id'] . '</LineNumber>
           <PaymentInfoID>2</PaymentInfoID>
           <ProductCode>' . $varientInfo['variant']['sku'] . '</ProductCode>
           <Quantity>' . $variant['quantity'] . '</Quantity>
@@ -68,7 +68,7 @@ foreach ($lineItemsArr as $key => $variant) {
         </LineItem>';
 
     $mediaFileTag .='<MediaFile>
-      <MediaID>' . $i . '</MediaID>
+      <MediaID>' . $variant['id'] . '</MediaID>
       <UploadBatchID/>
       <SourceType>URL</SourceType>
       <MediaFileName>' . $i . $data['name'] . '.jpg</MediaFileName>
@@ -94,7 +94,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <OrderSubmit xmlns="FES.DigitalIntegrationServices">
       <AppKey>11C7-2462-6CAA-4D87</AppKey>
       <OrderManifest>
-  <OriginatorOrderID>' . $data['name'] . '</OriginatorOrderID>
+  <OriginatorOrderID>' . $data['id'] . '</OriginatorOrderID>
   <Summary>
     <TotalTax>' . $data['total_tax'] . '</TotalTax>
     <TotalPrice>' . $data['total_price'] . '</TotalPrice>
@@ -134,7 +134,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
           <OrderUserTypeID>0</OrderUserTypeID>
         </OwnerInfo>
       </Summary>
-      <OriginatorSubOrderID>' . $data['name'] . '-Sub' . '</OriginatorSubOrderID>
+      <OriginatorSubOrderID>' . $data['name'] . '</OriginatorSubOrderID>
       <CreateDate>' . $data['created_at'] . '</CreateDate>
       <FulfillerID>30242</FulfillerID>
       <LineItems>

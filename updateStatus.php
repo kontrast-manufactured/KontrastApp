@@ -19,6 +19,7 @@ foreach ($orderDataSet['LineItems'] as $singleItems) {
             $postNoteData ['order']['id'] = $orderDataSet['OrderID'];
             $postNoteData ['order']['note_attributes']['lineNumber' . $singleItems['LineNumber']] = $singleItems['StatusCode'];
             $postNoteData ['order']['note_attributes']['Description' . $singleItems['LineNumber']] = $singleItems['StatusDescription'];
+            $postNoteData ['order']['note'] = $singleItems['StatusDescription'];
             ////Send to shopify to update Order
             $orderToUpdate = json_encode($postNoteData);
             /** use a max of 256KB of RAM before going to disk */
@@ -60,6 +61,7 @@ foreach ($orderDataSet['LineItems'] as $singleItems) {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $prepareData);
             $result = curl_exec($ch);
+            var_dump($result);
             curl_close($ch);
             break;
     }
