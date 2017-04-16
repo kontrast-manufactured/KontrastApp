@@ -2,7 +2,6 @@
 
 error_reporting(E_ALL);
 include 'restRequest.php';
-header('Authorization: Fujifilm APIKey=11C7-2462-6CAA-4D87');
 header('Content-Type: application/json');
 $orderDataSet = json_decode(file_get_contents('php://input'), true);
 define("SHOPIFY_URL", "https://2393be58496d0027c70ac6b8b354130b:5845b00c86160822c624e00ab90dc5b7@kontrast-manufactured-art.myshopify.com/admin/orders/");
@@ -10,7 +9,9 @@ define("SHOPIFY_URL", "https://2393be58496d0027c70ac6b8b354130b:5845b00c86160822
 $shopifyParamsURL = $orderDataSet['OrderID'] . ".json";
 $prepareData["line_items"] = array();
 
-
+$orderStatus['Status']['Code'] = 200;
+echo json_encode($orderStatus);
+die();
 foreach ($orderDataSet['LineItems'] as $singleItems) {
 
     switch ($singleItems['StatusCode']) {
@@ -65,14 +66,6 @@ foreach ($orderDataSet['LineItems'] as $singleItems) {
             break;
     }
 }
-
-
-
-
-
-
-
-
 
 
 //$orderStatus['Data']= json_decode($orderDataSet,true);

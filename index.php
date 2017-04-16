@@ -118,7 +118,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
     <OrderSubmit xmlns="FES.DigitalIntegrationServices">
-      <AppKey>11C7-2462-6CAA-4D87</AppKey>
+      <AppKey>794E-0953-582E-4BC5</AppKey>
       <OrderManifest>
   <OriginatorOrderID>' . $data['id'] . '</OriginatorOrderID>
   <Summary>
@@ -144,7 +144,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   </Summary>
   <OriginatorName>Order Integration Service 1.1</OriginatorName>
   <CheckoutDate>2012-08-31T13:40:56-04:00</CheckoutDate>
-  <AppKey>11C7-2462-6CAA-4D87</AppKey>
+  <AppKey>794E-0953-582E-4BC5</AppKey>
   <SubOrders>
     <SubOrder>
       <Summary>
