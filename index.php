@@ -72,15 +72,20 @@ foreach ($lineItemsArr as $key => $variant) {
               <PageProperties/>
               <Regions>
                 <Region>
-                  <MediaID>' . $variant['id'] . '</MediaID>
+                  <MediaID>' .  $i . '</MediaID>
                   <RegionType>IMAGE</RegionType>
                   <RegionID>0</RegionID>
                 </Region>
               </Regions>
             </Page>
           </Pages>
-          <LineNumber>' . $variant['id'] . '</LineNumber>
-          <PaymentInfoID>2</PaymentInfoID>
+          <LineNumber>' . $i. '</LineNumber>
+          <ItemProperties>
+          <OriginatorLineItemID>
+          ' . $variant['id'] . '
+          </OriginatorLineItemID>
+          </ItemProperties>
+          <PaymentInfoID>1</PaymentInfoID>
           <ProductCode>' . $varientInfo['variant']['sku'] . '</ProductCode>
           <Quantity>' . $variant['quantity'] . '</Quantity>
           <UnitPrice>' . $variant['price'] . '</UnitPrice>
@@ -92,7 +97,7 @@ foreach ($lineItemsArr as $key => $variant) {
         </LineItem>';
 
     $mediaFileTag .='<MediaFile>
-      <MediaID>' . $variant['id'] . '</MediaID>
+      <MediaID>' .  $i . '</MediaID>
       <UploadBatchID/>
       <SourceType>URL</SourceType>
       <MediaFileName>' . $i . $data['name'] . '.jpg</MediaFileName>
