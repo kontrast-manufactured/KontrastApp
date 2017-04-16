@@ -138,7 +138,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <Tax>
           <TaxID>VAT</TaxID>
           <Rate>' . $data['tax_linesRate'] . '</Rate>
-          <Amount>' . $data['tax_linesPrice'] . '</Amount>
+          <Amount>' . $data['total_tax'] . '</Amount>
         </Tax>
     </TaxList>
   </Summary>
