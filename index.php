@@ -215,7 +215,6 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 </soap12:Envelope>';
 
 
-echo $prepareData;
 ///Auth-key
 $url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
 $ch = curl_init();
@@ -225,7 +224,6 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/soap+xml')
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $prepareData);
 $result = curl_exec($ch);
-var_dump($result);
 curl_close($ch);
 
 
