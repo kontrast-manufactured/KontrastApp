@@ -1,11 +1,33 @@
 <?php
+
 error_reporting(0);
 include 'restRequest.php';
 
-
-
 $data = json_decode(file_get_contents('php://input'), true);
 
+//get Full Data 
+$restRequest = new restRequest();
+$orderURL = "https://2393be58496d0027c70ac6b8b354130b:5845b00c86160822c624e00ab90dc5b7@kontrast-manufactured-art.myshopify.com//admin/orders/";
+$orderParams = $data['id'] . ".json";
+
+$restRequest->setVerb('GET');
+$restRequest->setCustomeCurlParams(array(
+    'CURLOPT_SSL_VERIFYPEER' => false,
+    'CURLOPT_SSL_VERIFYHOST' => 2
+));
+
+$restRequest->setUrl($orderURL . $orderParams);
+
+$restRequest->execute();
+$orderInfo = json_decode($restRequest->getResponseBody(), true);
+$data = $orderInfo['order'];
+
+
+$date = new DateTime();
+$date->add(new DateInterval('P10D'));
+
+$picTimeDate = $date->format("Y-m-d\TH:i:s");
+;
 //prepare line item for XML 
 $lineItemString = '';
 $mediaFileTag = '';
@@ -21,8 +43,10 @@ $restRequest->setCustomeCurlParams(array(
     'CURLOPT_SSL_VERIFYHOST' => 2
 ));
 $i = 0;
- $data['tax_linesRate'] = ($data['tax_lines']['rate']!='')?$data['tax_lines']['rate']:0.0 ;
- $data['tax_linesPrice'] = ($data['tax_lines']['price'] !='')?$data['tax_lines']['price']:0.0;
+$data['tax_linesRate'] = ($data['tax_lines']['rate'] != '') ? $data['tax_lines']['rate'] : 0.0;
+$data['tax_linesPrice'] = ($data['tax_lines']['price'] != '') ? $data['tax_lines']['price'] : 0.0;
+$data['shippingPrice'] = ($data['shipping_lines']['price'] != '') ? $data['shipping_lines']['price'] : 0.0;
+
 foreach ($lineItemsArr as $key => $variant) {
     $i = $i + 1;
     ////////////// get the product image /////////////////////
@@ -61,8 +85,8 @@ foreach ($lineItemsArr as $key => $variant) {
           <Quantity>' . $variant['quantity'] . '</Quantity>
           <UnitPrice>' . $variant['price'] . '</UnitPrice>
           <BaseUnitPrice>' . $variant['price'] . '</BaseUnitPrice>
-          <Tax>' .  $data['tax_linesPrice']. '</Tax>
-          <ShippingPrice>0</ShippingPrice>
+          <Tax>' . $data['tax_linesPrice'] . '</Tax>
+          <ShippingPrice>'.$data['shippingPrice'].'</ShippingPrice>
           <HandlingPrice>0.0</HandlingPrice>
           <ChildLineItems/>
         </LineItem>';
@@ -83,9 +107,6 @@ foreach ($lineItemsArr as $key => $variant) {
       <FileDate>0001-01-01T00:00:00</FileDate>
       <MediaFileProperties/>
     </MediaFile>';
-
-
-    
 }
 
 $prepareData = '<?xml version="1.0" encoding="utf-8"?>
@@ -99,7 +120,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <TotalTax>' . $data['total_tax'] . '</TotalTax>
     <TotalPrice>' . $data['total_price'] . '</TotalPrice>
     <TotalItemPrice>' . $data['total_line_items_price'] . '</TotalItemPrice>
-    <TotalShipping>0</TotalShipping>
+    <TotalShipping>'.$data['shippingPrice'].'</TotalShipping>
     <TotalHandling>0.0</TotalHandling>
     <OwnerInfo>
       <FirstName>' . $data['customer']['first_name'] . '</FirstName>
@@ -111,8 +132,8 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <TaxList>
         <Tax>
           <TaxID>VAT</TaxID>
-          <Rate>' .$data['tax_linesRate']. '</Rate>
-          <Amount>' .$data['tax_linesPrice']  . '</Amount>
+          <Rate>' . $data['tax_linesRate'] . '</Rate>
+          <Amount>' . $data['tax_linesPrice'] . '</Amount>
         </Tax>
     </TaxList>
   </Summary>
@@ -125,7 +146,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
        <TotalTax>' . $data['total_tax'] . '</TotalTax>
     <TotalPrice>' . $data['total_price'] . '</TotalPrice>
     <TotalItemPrice>' . $data['total_line_items_price'] . '</TotalItemPrice>
-    <TotalShipping>0</TotalShipping>
+    <TotalShipping>'.$data['shippingPrice'].'</TotalShipping>
         <TotalHandling>0</TotalHandling>
         <OwnerInfo>
           <FirstName>' . $data['customer']['first_name'] . '</FirstName>
@@ -138,7 +159,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
       <CreateDate>' . $data['created_at'] . '</CreateDate>
       <FulfillerID>30242</FulfillerID>
       <LineItems>
-        '.$lineItemString.'
+        ' . $lineItemString . '
       </LineItems>
       <ShippingInfo>
         <FirstName>' . $data['shipping_address']['first_name'] . '</FirstName>
@@ -150,15 +171,17 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <PostalCode>' . $data['shipping_address']['zip'] . '</PostalCode>
         <Country>' . $data['shipping_address']['country_code'] . '</Country>
         <Phone>' . $data['shipping_address']['phone'] . '</Phone>
-        <PickupTime> 2017-04-12T11:00:00 </PickupTime>    
+        <PickupTime> ' . $picTimeDate . ' </PickupTime>    
         <MethodCode>SD</MethodCode>
         <MethodName>Standard Delivery</MethodName>
       </ShippingInfo>
       <Payments>
         <PaymentInfo>
-          <PaymentInfoID>2</PaymentInfoID>
+          <PaymentInfoID>1</PaymentInfoID>
           <PaymentAmount>' . $data['total_price'] . '</PaymentAmount>
-          <PaymentMethodID>COD</PaymentMethodID>
+          <PaymentMethodID>CC</PaymentMethodID>
+          <CreditCardType>AMERICANEXPRESS</CreditCardType>
+          <PaymentData>373321224522002</PaymentData>
           <BillingInfo>
             <FirstName>' . $data['billing_address']['first_name'] . '</FirstName>
             <LastName>' . $data['billing_address']['last_name'] . '</LastName>
@@ -178,7 +201,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   </SubOrders>
   <OrderProperties/>
   <FileList>
-     '.$mediaFileTag.'
+     ' . $mediaFileTag . '
   </FileList>
   <TemplateList/>
 </OrderManifest>
