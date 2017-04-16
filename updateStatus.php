@@ -10,8 +10,7 @@ $shopifyParamsURL = $orderDataSet['OrderID'] . ".json";
 $prepareData["line_items"] = array();
 
 $orderStatus['Status']['Code'] = 200;
-echo json_encode($orderStatus);
-die();
+
 foreach ($orderDataSet['LineItems'] as $singleItems) {
 
     switch ($singleItems['StatusCode']) {
