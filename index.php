@@ -24,9 +24,9 @@ $data = $orderInfo['order'];
 
 
 $date = new DateTime();
-$date->add(new DateInterval('P10D'));
+$date->add(new DateInterval('P1D'));
 
-$picTimeDate = $date->format("Y-m-d\TH:i:s");
+$picTimeDate = $date->format("Y-m-d\Th:i:s");
 ;
 //prepare line item for XML 
 $lineItemString = '';
