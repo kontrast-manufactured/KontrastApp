@@ -7,7 +7,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 //get Full Data 
 $restRequest = new restRequest();
-$orderURL = "https://2393be58496d0027c70ac6b8b354130b:5845b00c86160822c624e00ab90dc5b7@kontrast-manufactured-art.myshopify.com//admin/orders/";
+$orderURL = "https://2393be58496d0027c70ac6b8b354130b:5845b00c86160822c624e00ab90dc5b7@kontrast-manufactured-art.myshopify.com/admin/orders/";
 $orderParams = $data['id'] . ".json";
 
 $restRequest->setVerb('GET');
@@ -47,6 +47,7 @@ $data['tax_linesRate'] = ($data['tax_lines']['rate'] != '') ? $data['tax_lines']
 $data['tax_linesPrice'] = ($data['tax_lines']['price'] != '') ? $data['tax_lines']['price'] : 0.0;
 $data['shippingPrice'] = ($data['shipping_lines']['price'] != '') ? $data['shipping_lines']['price'] : 0.0;
 
+
 foreach ($lineItemsArr as $key => $variant) {
     $i = $i + 1;
     ////////////// get the product image /////////////////////
@@ -63,7 +64,7 @@ foreach ($lineItemsArr as $key => $variant) {
     $restRequest->setUrl($mainURL . $variant['variant_id'] . $params);
     $restRequest->execute();
     $varientInfo = json_decode($restRequest->getResponseBody(), true);
-
+    $dataImage = ($data['note'] != null)? $data['note']: $product['image']['src'] ;
     $lineItemString .= '<LineItem>
           <Pages>
             <Page>
@@ -103,7 +104,7 @@ foreach ($lineItemsArr as $key => $variant) {
       <MediaFileName>' . $i . $data['name'] . '.jpg</MediaFileName>
       <MediaFileType>IMAGE</MediaFileType>
       <Source>
-        ' . $product['image']['src'] . '
+        ' . $dataImage . '
       </Source>
       <RelativeSource/>
       <Rotation>0</Rotation>
