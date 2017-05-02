@@ -161,7 +161,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
           <OrderUserTypeID>0</OrderUserTypeID>
         </OwnerInfo>
       </Summary>
-      <OriginatorSubOrderID>' . $data['name'] . '</OriginatorSubOrderID>
+      <OriginatorSubOrderID>' . 'sub-'.$data['name'] . '</OriginatorSubOrderID>
       <CreateDate>' . $data['created_at'] . '</CreateDate>
       <FulfillerID>30242</FulfillerID>
       <LineItems>
@@ -215,8 +215,8 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   </soap12:Body>
 </soap12:Envelope>';
 
-echo $prepareData;
-die();
+//echo $prepareData;
+//die();
 ///Auth-key
 $url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
 $ch = curl_init();
