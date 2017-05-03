@@ -215,7 +215,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
   </soap12:Body>
 </soap12:Envelope>';
 
-//echo $prepareData;
+echo $prepareData;
 //die();
 ///Auth-key
 $url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
