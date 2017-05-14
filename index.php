@@ -86,7 +86,7 @@ foreach ($lineItemsArr as $key => $variant) {
           ' . $variant['id'] . '
           </OriginatorLineItemID>
           </ItemProperties>
-          <PaymentInfoID>1</PaymentInfoID>
+          <PaymentInfoID>2</PaymentInfoID>
           <ProductCode>' . $varientInfo['variant']['sku'] . '</ProductCode>
           <Quantity>' . $variant['quantity'] . '</Quantity>
           <UnitPrice>' . $variant['price'] . '</UnitPrice>
@@ -115,6 +115,10 @@ foreach ($lineItemsArr as $key => $variant) {
     </MediaFile>';
 }
 
+$customerPhone = explode('+1',$data['customer']['phone']);
+$addressPhone = explode('+1',$data['shipping_address']['phone']);
+$billingPhone = explode('+1',$data['billing_address']['phone']);
+
 $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
@@ -131,7 +135,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <OwnerInfo>
       <FirstName>' . $data['customer']['first_name'] . '</FirstName>
       <LastName>' . $data['customer']['last_name'] . '</LastName>
-      <Phone>' . $data['customer']['phone'] . '</Phone>
+      <Phone>' . $customerPhone . '</Phone>
       <Email>' . $data['customer']['email'] . '</Email>
       <OrderUserTypeID>0</OrderUserTypeID>
     </OwnerInfo>
@@ -157,7 +161,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <OwnerInfo>
           <FirstName>' . $data['customer']['first_name'] . '</FirstName>
           <LastName>' . $data['customer']['last_name'] . '</LastName>
-          <Phone>' . $data['customer']['phone'] . '</Phone>
+          <Phone>' . $customerPhone . '</Phone>
           <OrderUserTypeID>0</OrderUserTypeID>
         </OwnerInfo>
       </Summary>
@@ -176,18 +180,16 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <State>' . $data['shipping_address']['province_code'] . '</State>
         <PostalCode>' . $data['shipping_address']['zip'] . '</PostalCode>
         <Country>' . $data['shipping_address']['country_code'] . '</Country>
-        <Phone>' . $data['shipping_address']['phone'] . '</Phone>
+        <Phone>' . $addressPhone . '</Phone>
         <PickupTime>' . $picTimeDate . '</PickupTime>    
         <MethodCode>SD</MethodCode>
         <MethodName>Standard Delivery</MethodName>
       </ShippingInfo>
       <Payments>
         <PaymentInfo>
-          <PaymentInfoID>1</PaymentInfoID>
+          <PaymentInfoID>2</PaymentInfoID>
           <PaymentAmount>' . $data['total_price'] . '</PaymentAmount>
-          <PaymentMethodID>CC</PaymentMethodID>
-          <CreditCardType>AMERICANEXPRESS</CreditCardType>
-          <PaymentData>373321224522002</PaymentData>
+          <PaymentMethodID>COD</PaymentMethodID>
           <BillingInfo>
             <FirstName>' . $data['billing_address']['first_name'] . '</FirstName>
             <LastName>' . $data['billing_address']['last_name'] . '</LastName>
@@ -197,7 +199,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
             <State>' . $data['billing_address']['province_code'] . '</State>
             <PostalCode>' . $data['billing_address']['zip'] . '</PostalCode>
             <Country>' . $data['billing_address']['country_code'] . '</Country>
-            <Phone>' . $data['billing_address']['phone'] . '</Phone>
+            <Phone>' . $billingPhone . '</Phone>
           </BillingInfo>
           <PaymentProperties/>
         </PaymentInfo>
