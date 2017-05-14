@@ -135,7 +135,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
     <OwnerInfo>
       <FirstName>' . $data['customer']['first_name'] . '</FirstName>
       <LastName>' . $data['customer']['last_name'] . '</LastName>
-      <Phone>' . $customerPhone . '</Phone>
+      <Phone>' . $customerPhone[1] . '</Phone>
       <Email>' . $data['customer']['email'] . '</Email>
       <OrderUserTypeID>0</OrderUserTypeID>
     </OwnerInfo>
@@ -161,7 +161,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <OwnerInfo>
           <FirstName>' . $data['customer']['first_name'] . '</FirstName>
           <LastName>' . $data['customer']['last_name'] . '</LastName>
-          <Phone>' . $customerPhone . '</Phone>
+          <Phone>' . $customerPhone[1] . '</Phone>
           <OrderUserTypeID>0</OrderUserTypeID>
         </OwnerInfo>
       </Summary>
@@ -180,7 +180,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <State>' . $data['shipping_address']['province_code'] . '</State>
         <PostalCode>' . $data['shipping_address']['zip'] . '</PostalCode>
         <Country>' . $data['shipping_address']['country_code'] . '</Country>
-        <Phone>' . $addressPhone . '</Phone>
+        <Phone>' . $addressPhone[1] . '</Phone>
         <PickupTime>' . $picTimeDate . '</PickupTime>    
         <MethodCode>SD</MethodCode>
         <MethodName>Standard Delivery</MethodName>
@@ -199,7 +199,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
             <State>' . $data['billing_address']['province_code'] . '</State>
             <PostalCode>' . $data['billing_address']['zip'] . '</PostalCode>
             <Country>' . $data['billing_address']['country_code'] . '</Country>
-            <Phone>' . $billingPhone . '</Phone>
+            <Phone>' . $billingPhone[1] . '</Phone>
           </BillingInfo>
           <PaymentProperties/>
         </PaymentInfo>
