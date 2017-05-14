@@ -116,8 +116,8 @@ foreach ($lineItemsArr as $key => $variant) {
 }
 
 $customerPhone = explode('+1',$data['customer']['phone']);
-$addressPhone = explode('+1',$data['shipping_address']['phone']);
-$billingPhone = explode('+1',$data['billing_address']['phone']);
+$addressPhone = $data['shipping_address']['phone'];
+$billingPhone = $data['billing_address']['phone'];
 
 $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
@@ -180,7 +180,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
         <State>' . $data['shipping_address']['province_code'] . '</State>
         <PostalCode>' . $data['shipping_address']['zip'] . '</PostalCode>
         <Country>' . $data['shipping_address']['country_code'] . '</Country>
-        <Phone>' . $addressPhone[1] . '</Phone>
+        <Phone>' . $addressPhone . '</Phone>
         <PickupTime>' . $picTimeDate . '</PickupTime>    
         <MethodCode>SD</MethodCode>
         <MethodName>Standard Delivery</MethodName>
@@ -199,7 +199,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
             <State>' . $data['billing_address']['province_code'] . '</State>
             <PostalCode>' . $data['billing_address']['zip'] . '</PostalCode>
             <Country>' . $data['billing_address']['country_code'] . '</Country>
-            <Phone>' . $billingPhone[1] . '</Phone>
+            <Phone>' . $billingPhone . '</Phone>
           </BillingInfo>
           <PaymentProperties/>
         </PaymentInfo>
