@@ -2,7 +2,6 @@
 error_reporting(E_ALL);
 include 'restRequest.php';
 header('Content-Type: application/json');
-echo file_get_contents('php://input');
 $orderDataSet = json_decode(file_get_contents('php://input'), true);
 define("SHOPIFY_URL", "https://2393be58496d0027c70ac6b8b354130b:5845b00c86160822c624e00ab90dc5b7@kontrast-manufactured-art.myshopify.com/admin/orders/");
 
@@ -10,7 +9,6 @@ $shopifyParamsURL = $orderDataSet['OrderID'] . ".json";
 $prepareData["line_items"] = array();
 
 $orderStatus['Status']['Code'] = 200;
-var_dump($orderDataSet);
 foreach ($orderDataSet['LineItems'] as $singleItems) {
 
     if ($singleItems['StatusCode']== "Shipped") {
