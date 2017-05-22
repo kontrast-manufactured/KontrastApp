@@ -13,13 +13,26 @@ $orderStatus['Status']['Code'] = 200;
 
 foreach ($orderDataSet['LineItems'] as $singleItems) {
 
-    switch ($singleItems['StatusCode']) {
+    if ($singleItems['StatusCode']== "Shipped") {
 
-        case "Error":
+            //update by creat for shiped items 
+            $prepareData["fulfillment"]["tracking_number"] = $singleItems['LineNumber'];
+            $prepareData["fulfillment"]["tracking_company"] = $singleItems['LineNumber'];
+            $prepareData["line_items"][]["id"] = $singleItems['LineNumber'];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, SHOPIFY_URL . $orderDataSet['OrderID'] . "/fulfillments.json");
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($prepareData));
+            $result = curl_exec($ch);
+            curl_close($ch);
+    }
+          
             $postNoteData ['order']['id'] = $orderDataSet['OrderID'];
             $postNoteData ['order']['note_attributes']['lineNumber' . $singleItems['LineNumber']] = $singleItems['StatusCode'];
             $postNoteData ['order']['note_attributes']['Description' . $singleItems['LineNumber']] = $singleItems['StatusDescription'];
-            $postNoteData ['order']['note'] = $singleItems['StatusDescription'];
             ////Send to shopify to update Order
             $orderToUpdate = json_encode($postNoteData);
             /** use a max of 256KB of RAM before going to disk */
@@ -46,24 +59,6 @@ foreach ($orderDataSet['LineItems'] as $singleItems) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
             $xml_response = curl_exec($ch);
             curl_close($ch);
-
-            break;
-        case "Shipped":
-            //update by creat for shiped items 
-            $prepareData["fulfillment"]["tracking_number"] = $singleItems['LineNumber'];
-            $prepareData["fulfillment"]["tracking_company"] = $singleItems['LineNumber'];
-            $prepareData["line_items"][]["id"] = $singleItems['LineNumber'];
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, SHOPIFY_URL . $orderDataSet['OrderID'] . "/fulfillments.json");
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($prepareData));
-            $result = curl_exec($ch);
-            curl_close($ch);
-            break;
-    }
 }
 
 
