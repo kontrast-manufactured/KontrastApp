@@ -10,7 +10,7 @@ $shopifyParamsURL = $orderDataSet['OrderID'] . ".json";
 $prepareData["line_items"] = array();
 
 $orderStatus['Status']['Code'] = 200;
-
+var_dump($orderStatus);
 foreach ($orderDataSet['LineItems'] as $singleItems) {
 
     if ($singleItems['StatusCode']== "Shipped") {
