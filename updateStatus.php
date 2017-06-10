@@ -12,10 +12,19 @@ $orderStatus['Status']['Code'] = 200;
 foreach ($orderDataSet['LineItems'] as $singleItems) {
 
     if ($singleItems['StatusCode']== "Shipped") {
-
+        $tarckNumber = '';
+        $shipcode = '';
+        foreach ($singleItems['Properties'] as $property){
+            if($property['Name'] == 'TRACKINGNUMBER'){
+                $tarckNumber = $property['Value'];
+            }
+            if($property['Name'] == 'SHIPCODE'){
+                $shipcode = $property['Value'];
+            }
+        }
             //update by creat for shiped items 
-            $prepareData["fulfillment"]["tracking_number"] = $singleItems['LineNumber'];
-            $prepareData["fulfillment"]["tracking_company"] = $singleItems['LineNumber'];
+            $prepareData["fulfillment"]["tracking_number"] = $tarckNumber;
+            $prepareData["fulfillment"]["tracking_company"] = $singleItems['StatusDescription'].' ShipCode : '.$shipcode;
             $prepareData["line_items"][]["id"] = $singleItems['LineNumber'];
 
             $ch = curl_init();
