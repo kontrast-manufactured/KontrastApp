@@ -224,7 +224,7 @@ $url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservi
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/soap+xml'));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $prepareData);
 $result = curl_exec($ch);
