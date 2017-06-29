@@ -220,7 +220,7 @@ $prepareData = '<?xml version="1.0" encoding="utf-8"?>
 echo $prepareData;
 
 ///Auth-key
-$url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
+$url = 'https://webservices.fujifilmesys.com/fes.digitalintegrationservices/order/orderservices.asmx';
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, true);
