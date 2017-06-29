@@ -23,7 +23,7 @@ $orderDataSet ["LineItems"][]['StatusDescription'] = 'Indicates the item or orde
   
 
 ///Auth-key
-$url = 'https://preview.webservices.fujifilmesys.com/fes.digitalintegrationservices/orders/pushstatus';
+$url = 'https://webservices.fujifilmesys.com/fes.digitalintegrationservices/orders/pushstatus';
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, true);
